@@ -2,9 +2,11 @@
 
 namespace CodeShopping\Http\Requests;
 
+use CodeShopping\Models\Product;
+use CodeShopping\Rules\HasStock;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class ProductOutputRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +25,11 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
+        /** @var Product $product */
+        $product = Product::findOrFail($this->product_id);
         return [
-            'name' => 'required|max:255',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'active' => 'boolean'
+            'amount' => ['required','integer', 'min:1', new HasStock($product)]
+
         ];
     }
 }

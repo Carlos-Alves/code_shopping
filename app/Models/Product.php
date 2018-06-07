@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use Sluggable;
-    protected $fillable = ['name', 'description', 'price', 'stock', 'active'];
+    protected $fillable = ['name', 'description', 'price', 'active'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -22,5 +22,9 @@ class Product extends Model
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function categories(){
+        return $this->belongsToMany(Category::class);
     }
 }

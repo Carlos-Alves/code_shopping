@@ -3,6 +3,7 @@
 namespace CodeShopping\Providers;
 
 use CodeShopping\Models\Category;
+use CodeShopping\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -30,6 +31,10 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::bind('category', function($value){
             return Category::whereId($value)->orWhere('slug', $value)->get()->first();
+        });
+
+        Route::bind('product', function($value){
+            return Product::whereId($value)->orWhere('slug', $value)->get()->first();
         });
     }
 
