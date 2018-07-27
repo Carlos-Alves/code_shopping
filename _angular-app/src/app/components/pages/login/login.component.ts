@@ -1,28 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {headersToString} from 'selenium-webdriver/http';
+import {Router} from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
-  private url = 'http://localhost:8000/api/login';
   credentials = {
-      email: '',
-      password: ''
-  }
+      email: 'admin@user.com',
+      password: 'secret'
+  };
+
+  showMessageError = false;
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
-  submit(){
-    this.http.post(this.url, this.credentials)
-        .subscribe((data) => console.log(data));
+  submit() {
+    this.authService.login(this.credentials)
+        .subscribe((data) => {
+        this.router.navigate(['categories/list']);
+        }, () => this.showMessageError = true);
       return false;
   }
 

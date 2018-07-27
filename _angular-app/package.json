@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "env": "node generate-env.js"
   },
   "private": true,
   "dependencies": {
@@ -20,9 +21,14 @@
     "@angular/platform-browser": "^6.0.0",
     "@angular/platform-browser-dynamic": "^6.0.0",
     "@angular/router": "^6.0.0",
+    "@auth0/angular-jwt": "^2.0.0",
+    "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
     "bootstrap": "^4.1.1",
     "core-js": "^2.5.4",
     "jquery": "^3.3.1",
+    "ngx-pagination": "^3.1.1",
+    "pace": "github:HubSpot/pace#v1.0.2",
+    "pnotify": "^4.0.0-alpha.4",
     "popper.js": "^1.14.3",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"

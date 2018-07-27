@@ -4,6 +4,7 @@ namespace CodeShopping\Http\Controllers\Api;
 
 use CodeShopping\Common\OnlyTrashed;
 use CodeShopping\Http\Controllers\Controller;
+use CodeShopping\Http\Requests\ProductRequest;
 use CodeShopping\Http\Resources\ProductResource;
 use CodeShopping\Models\Product;
 use Illuminate\Http\Request;

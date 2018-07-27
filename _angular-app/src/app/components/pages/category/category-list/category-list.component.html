@@ -1,0 +1,55 @@
+<div class="row">
+  <h1>Listagem de categorias</h1>
+
+  <table class="table table-responsive table-striped table-hover table-dark">
+    <thead>
+      <tr>
+          <td scope="col"><button class="btn btn-primary" (click)="categoryInsertService.showModalInsert()">Nova categoria</button></td>
+          <td scope="col"><button class="btn btn-warning" [routerLink]="['/products','list']">Produtos</button></td>
+      </tr>
+      <tr>
+        <th style="width: 5%">Id</th>
+        <th style="width: 50%">Nome</th>
+        <th style="width: 5%"> Ativa?</th>
+        <th style="width: 10%">Criado em</th>
+        <th style="width: 30%">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+     <tr *ngFor="let category of categories | paginate: { itemsPerPage: 5, currentPage: pagination.page, totalItems: pagination.totalItems }" >
+       <td>{{category.id}}</td>
+       <td>{{category.name}}</td>
+       <td>
+          <i class='fas' [ngClass]="{'fa-check': category.active, 'fa-times': !category.active}" style="color:blueviolet"></i>
+       </td>
+       <td>{{category.created_at.date | date: 'dd/MM/yyyy'}}</td>
+       <td>
+         <a href="javascript:void(0)" (click)="categoryEditService.showModalEdit(category.id)">
+           <i class="fas fa-edit"></i>
+         </a>
+         |
+         <a href="javascript:void(0)" (click)="categoryDeleteService.showModalDelete(category.id)">
+          <i class="fas fa-trash-alt"></i>
+        </a>
+       </td>
+     </tr>
+
+    </tbody>
+  </table>
+
+  <pagination-controls (pageChange)="pageChanged($event)"
+                        previousLabel="Anterior"
+                        nextLabel="Próximo">
+</pagination-controls>
+
+</div>
+<category-new-modal (onSuccess)="categoryInsertService.onInsertSuccess($event)"
+(onError)="categoryInsertService.onInsertError($event)"></category-new-modal>
+
+<category-edit-modal [categoryId]="categoryId"
+(onSuccess)="categoryEditService.onEditSuccess($event)"
+(onError)="categoryEditService.onEditError($event)"></category-edit-modal>
+
+<category-delete-modal [categoryId]="categoryId"
+(onSuccess)="categoryDeleteService.onDeleteSuccess($event)"
+(onError)="categoryDeleteService.onDeleteError($event)"></category-delete-modal>

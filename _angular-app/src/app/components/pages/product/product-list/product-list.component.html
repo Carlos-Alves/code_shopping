@@ -1,0 +1,66 @@
+<div class="row">
+  <h1>Listagem de produtos</h1>
+
+  <table class="table table-responsive table-striped table-hover table-dark">
+    <thead>
+      <tr>
+        <td scope="col"><button class="btn btn-primary" (click)="productInsertService.showModalInsert()">Novo produto</button></td>
+         
+        <td scope="col"><button class="btn btn-warning" [routerLink]="['/categories','list']">Categorias</button></td>
+        
+        <td scope="col"><button class="btn btn-info" [routerLink]="['/users','list']">Usuários</button></td>
+      </tr>
+      <tr>
+        <th style="width: 5%">Id</th>
+        <th style="width: 30%">Nome</th>
+        <th style="width: 25%">Descrição</th>
+        <th style="width: 5%">Preço</th>
+        <th style="width: 5%"> Ativa?</th>
+        <th style="width: 10%">Criado em</th>
+        <th style="width: 20%">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+     <tr *ngFor="let product of products | paginate: { itemsPerPage: 5, currentPage: pagination.page, totalItems: pagination.totalItems }" >
+       <td>{{product.id}}</td>
+       <td>{{product.name}}</td>
+       <td>{{product.description}}</td>
+       <td>{{product.price | numberFormatBr}}</td>
+       <td>
+          <i class='fas' [ngClass]="{'fa-check': product.active, 'fa-times': !product.active}" style="color:blueviolet"></i>
+       </td>
+       <td>{{product.created_at.date | date: 'dd/MM/yyyy'}}</td>
+       <td>
+         <a href="javascript:void(0)" (click)="productEditService.showModalEdit(product.id)">
+           <i class="fas fa-edit"></i>
+         </a>
+         |
+         <a href="javascript:void(0)" (click)="productDeleteService.showModalDelete(product.id)">
+          <i class="fas fa-trash-alt"></i>
+        </a>
+        |
+        <a [routerLink]="['/products', product.id, 'categories', 'list']">
+          categorias
+        </a>
+       </td>
+     </tr>
+
+    </tbody>
+  </table>
+
+  <pagination-controls (pageChange)="pageChanged($event)"
+                        previousLabel="Anterior"
+                        nextLabel="Próximo">
+</pagination-controls>
+
+</div>
+<product-new-modal (onSuccess)="productInsertService.onInsertSuccess($event)"
+(onError)="productInsertService.onInsertError($event)"></product-new-modal>
+
+<product-edit-modal [productId]="productId"
+(onSuccess)="productEditService.onEditSuccess($event)"
+(onError)="productEditService.onEditError($event)"></product-edit-modal>
+
+<product-delete-modal [productId]="productId"
+(onSuccess)="productDeleteService.onDeleteSuccess($event)"
+(onError)="productDeleteService.onDeleteError($event)"></product-delete-modal>
